@@ -29,7 +29,7 @@
 
 - (void) awakeFromNib
 {
-	[_tableView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+	[_tableView registerForDraggedTypes:[NSArray arrayWithObject:NSPasteboardTypeFileURL]];
 }
 
 #pragma mark Data Source Overrides
@@ -88,8 +88,8 @@
 		index = [rowIndexes indexGreaterThanIndex:index];
 	}
 	
-	[pboard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:nil];
-	[pboard setPropertyList:filenames forType:NSFilenamesPboardType];
+	[pboard declareTypes:[NSArray arrayWithObject:NSPasteboardTypeFileURL] owner:nil];
+	[pboard setPropertyList:filenames forType:NSPasteboardTypeFileURL];
 
 	return YES;
 }
@@ -103,7 +103,7 @@
 		[tv setDropRow:row dropOperation:NSTableViewDropAbove];
 		dragOperation = NSDragOperationMove;
 	}	
-	else if([[[info draggingPasteboard] types] containsObject:NSFilenamesPboardType]) {
+	else if([[[info draggingPasteboard] types] containsObject:NSPasteboardTypeFileURL]) {
 		[tv setDropRow:row dropOperation:NSTableViewDropAbove];
 		dragOperation = NSDragOperationCopy;
 	}
@@ -120,7 +120,7 @@
 	}
 	
     if(_tableView == [info draggingSource]) {
-		NSArray			*filenames		= [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
+		NSArray			*filenames		= [[info draggingPasteboard] propertyListForType:NSPasteboardTypeFileURL];
 		NSIndexSet		*indexSet		= [self indexSetForRows:filenames];
 		NSInteger		rowsAbove;
 		NSRange			range;
@@ -133,13 +133,13 @@
 		
 		[self setSelectionIndexes:indexSet];
 	}
-	else if([[[info draggingPasteboard] types] containsObject:NSFilenamesPboardType]) {
+	else if([[[info draggingPasteboard] types] containsObject:NSPasteboardTypeFileURL]) {
 		NSEnumerator		*enumerator;
 		NSString			*current;
 		NSMutableArray		*newFiles	= [NSMutableArray array];
 		NSDictionary		*file;
 		
-		enumerator = [[[info draggingPasteboard] propertyListForType:NSFilenamesPboardType] objectEnumerator];
+		enumerator = [[[info draggingPasteboard] propertyListForType:NSPasteboardTypeFileURL] objectEnumerator];
 		while((current = [enumerator nextObject])) {
 			
 			success &= [[FileConversionController sharedController] addFile:current atIndex:row++];

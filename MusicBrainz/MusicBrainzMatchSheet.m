@@ -44,7 +44,7 @@
 - (NSWindow *)		sheet					{ return [[_sheet retain] autorelease]; }
 - (NSDictionary *)	selectedRelease			{ return [[_matchesController selectedObjects] firstObject]; }
 
-- (IBAction)		cancel:(id)sender		{ [[NSApplication sharedApplication] endSheet:[self sheet] returnCode:NSCancelButton]; }
-- (IBAction)		ok:(id)sender			{ [[NSApplication sharedApplication] endSheet:[self sheet] returnCode:NSOKButton]; }
+- (IBAction)		cancel:(id)sender		{ [[NSApplication sharedApplication] endSheet:[self sheet] returnCode:NSModalResponseCancel]; }
+- (IBAction)		ok:(id)sender			{ [[NSApplication sharedApplication] endSheet:[self sheet] returnCode:NSModalResponseOK]; }
 
 @end

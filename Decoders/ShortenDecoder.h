@@ -24,7 +24,8 @@
 
 @interface ShortenDecoder : Decoder
 {
-	shn_file					*_shn;
+    // shn_file                    *_shn;
+    void                    *_shn;  // placeholder for missing shorten header
 }
 
 @end

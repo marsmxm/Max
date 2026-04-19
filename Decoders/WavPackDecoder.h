@@ -19,11 +19,14 @@
 #import <Cocoa/Cocoa.h>
 #import "Decoder.h"
 
+// Avoid ChunkHeader conflict between WavPack and AIFF.h
+#define ChunkHeader WavPackChunkHeader
 #include <wavpack/wavpack.h>
+#undef ChunkHeader
 
 @interface WavPackDecoder : Decoder
 {
-    WavpackContext					*_wpc;
+    WavpackContext                    *_wpc;
 }
 
 @end

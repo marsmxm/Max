@@ -46,7 +46,7 @@
 - (id) init
 {	
 	if((self = [super init])) {
-		_compressionLevel	= COMPRESSION_LEVEL_NORMAL;
+		_compressionLevel	= MAC_COMPRESSION_LEVEL_NORMAL;
 	}
 	
 	return self;
@@ -136,7 +136,7 @@
 		chars = APE::CAPECharacterHelper::GetUTF16FromANSI([filename fileSystemRepresentation]);
 		NSAssert(NULL != chars, NSLocalizedStringFromTable(@"Unable to allocate memory.", @"Exceptions", @""));
 		
-		result = FillWaveFormatEx(&formatDesc, (int)[decoder pcmFormat].mSampleRate, [decoder pcmFormat].mBitsPerChannel, [decoder pcmFormat].mChannelsPerFrame);
+		result = FillWaveFormatEx(&formatDesc, WAVE_FORMAT_PCM, (int)[decoder pcmFormat].mSampleRate, [decoder pcmFormat].mBitsPerChannel, [decoder pcmFormat].mChannelsPerFrame);
 		NSAssert(ERROR_SUCCESS == result, NSLocalizedStringFromTable(@"Unable to initialize the Monkey's Audio compressor.", @"Exceptions", @""));
 		
 		// Start the compressor
@@ -227,12 +227,12 @@
 	
 	level = [[settings objectForKey:@"compressionLevel"] intValue];
 	switch(level) {
-		case MAC_COMPRESSION_LEVEL_FAST:		_compressionLevel = COMPRESSION_LEVEL_FAST;				break;
-		case MAC_COMPRESSION_LEVEL_NORMAL:		_compressionLevel = COMPRESSION_LEVEL_NORMAL;			break;
-		case MAC_COMPRESSION_LEVEL_HIGH:		_compressionLevel = COMPRESSION_LEVEL_HIGH;				break;
-		case MAC_COMPRESSION_LEVEL_EXTRA_HIGH:	_compressionLevel = COMPRESSION_LEVEL_EXTRA_HIGH;		break;
-		case MAC_COMPRESSION_LEVEL_INSANE:		_compressionLevel = COMPRESSION_LEVEL_INSANE;			break;
-		default:								_compressionLevel = COMPRESSION_LEVEL_NORMAL;			break;
+		case MAX_SETTINGS_COMPRESSION_FAST:			_compressionLevel = MAC_COMPRESSION_LEVEL_FAST;				break;
+		case MAX_SETTINGS_COMPRESSION_NORMAL:		_compressionLevel = MAC_COMPRESSION_LEVEL_NORMAL;			break;
+		case MAX_SETTINGS_COMPRESSION_HIGH:			_compressionLevel = MAC_COMPRESSION_LEVEL_HIGH;				break;
+		case MAX_SETTINGS_COMPRESSION_EXTRA_HIGH:	_compressionLevel = MAC_COMPRESSION_LEVEL_EXTRA_HIGH;		break;
+		case MAX_SETTINGS_COMPRESSION_INSANE:		_compressionLevel = MAC_COMPRESSION_LEVEL_INSANE;			break;
+		default:									_compressionLevel = MAC_COMPRESSION_LEVEL_NORMAL;			break;
 	}
 }
 

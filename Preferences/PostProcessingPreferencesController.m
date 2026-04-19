@@ -65,7 +65,7 @@
 	[panel setAllowedFileTypes:@[@"app"]];
 
 	[panel beginSheetModalForWindow:[[PreferencesController sharedPreferences] window] completionHandler:^(NSModalResponse result) {
-		if(NSOKButton == result) {
+		if(NSModalResponseOK == result) {
 			NSArray				*applications		= [panel URLs];
 			NSDictionary		*application		= nil;
 			NSString			*applicationPath	= nil;

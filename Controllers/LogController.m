@@ -121,7 +121,7 @@ static NSString			*ClearLogToolbarItemIdentifier		= @"org.sbooth.Max.Log.Toolbar
 	panel.allowedFileTypes = @[@"rtf"];
 
 	[panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
-		if(NSOKButton == result) {
+		if(NSModalResponseOK == result) {
 			@synchronized(self) {
 				NSString						*filename		= [[panel URL] path];
 				NSMutableAttributedString		*logMessage		= [[NSMutableAttributedString alloc] init];

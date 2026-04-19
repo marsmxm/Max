@@ -27,11 +27,11 @@
 	NSArray *types = [pboard types];
 	
 	@try {
-		if([types containsObject:NSFilenamesPboardType]) {
-			[[ApplicationController sharedController] encodeFiles:[pboard propertyListForType:NSFilenamesPboardType]];
+		if([types containsObject:NSPasteboardTypeFileURL]) {
+			[[ApplicationController sharedController] encodeFiles:[pboard propertyListForType:NSPasteboardTypeFileURL]];
 		}
-		else if([types containsObject:NSStringPboardType]) {
-			[[ApplicationController sharedController] encodeFiles:[NSArray arrayWithObject:[pboard stringForType:NSStringPboardType]]];
+		else if([types containsObject:NSPasteboardTypeString]) {
+			[[ApplicationController sharedController] encodeFiles:[NSArray arrayWithObject:[pboard stringForType:NSPasteboardTypeString]]];
 		}
 	}
 	
@@ -40,7 +40,7 @@
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"General", @"")];
 		[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"An error occurred while opening the file \"%@\" for conversion.", @"Exceptions", @""), [[exception userInfo] objectForKey:@"filename"]]];
 		[alert setInformativeText:[exception reason]];
-		[alert setAlertStyle:NSWarningAlertStyle];		
+		[alert setAlertStyle:NSAlertStyleWarning];		
 		[alert runModal];
 	}
 	
@@ -54,7 +54,7 @@
 			[alert setMessageText:NSLocalizedStringFromTable(@"An error occurred during file conversion.", @"Exceptions", @"")];
 		}
 		[alert setInformativeText:[exception reason]];
-		[alert setAlertStyle:NSWarningAlertStyle];		
+		[alert setAlertStyle:NSAlertStyleWarning];		
 		[alert runModal];
 	}
 }

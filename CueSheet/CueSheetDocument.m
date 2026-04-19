@@ -224,8 +224,8 @@
 				[newTrack setSampleRate:[decoder pcmFormat].mSampleRate];
 				[newTrack setStartingFrame:(track_get_start(track) / (float)75) * [decoder pcmFormat].mSampleRate];
 				
-				if(0 != track_get_length(track))
-					[newTrack setFrameCount:(track_get_length(track) / (float)75) * [decoder pcmFormat].mSampleRate];
+				if(0 < track_get_length(track))
+					[newTrack setFrameCount:(UInt32)((track_get_length(track) / (float)75) * [decoder pcmFormat].mSampleRate)];
 				else
 					[newTrack setFrameCount:(UInt32)([decoder totalFrames] - [newTrack startingFrame])];
 			}
@@ -480,7 +480,7 @@
 		[alert addButtonWithTitle: NSLocalizedStringFromTable(@"Show Preferences", @"General", @"")];
 		[alert setMessageText:NSLocalizedStringFromTable(@"No output formats are selected.", @"General", @"")];
 		[alert setInformativeText:NSLocalizedStringFromTable(@"Please select one or more output formats.", @"General", @"")];
-		[alert setAlertStyle: NSWarningAlertStyle];
+		[alert setAlertStyle: NSAlertStyleWarning];
 		
 		result = [alert runModal];
 		
@@ -576,7 +576,7 @@
 			[alert addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"General", @"")];
 			[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"An error occurred while converting the file \"%@\".", @"Exceptions", @""), [[NSFileManager defaultManager] displayNameAtPath:filename]]];
 			[alert setInformativeText:[exception reason]];
-			[alert setAlertStyle:NSWarningAlertStyle];		
+			[alert setAlertStyle:NSAlertStyleWarning];		
 			[alert runModal];
 		}			
 	}
@@ -612,7 +612,7 @@
 			MusicBrainzMatchSheet	*sheet		= [[MusicBrainzMatchSheet alloc] init];
 			[sheet setValue:results forKey:@"matches"];
 			[[self windowForSheet] beginSheet:[sheet sheet] completionHandler:^(NSModalResponse returnCode) {
-				if(NSOKButton == returnCode) {
+				if(NSModalResponseOK == returnCode) {
 					NSDictionary *release = [sheet selectedRelease];
 					[self updateMetadataFromMusicBrainz:release];
 					[self downloadAlbumArt:sender];
@@ -708,7 +708,7 @@
 	[panel setAllowedFileTypes:[NSImage imageFileTypes]];
 	
 	[panel beginSheetModalForWindow:[self windowForSheet] completionHandler:^(NSModalResponse result) {
-		if(NSOKButton == result) {
+		if(NSModalResponseOK == result) {
 			for(NSURL *url in [panel URLs]) {
 				NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
 				if(nil != image)

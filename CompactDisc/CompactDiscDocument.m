@@ -368,7 +368,7 @@
 			[alert addButtonWithTitle: NSLocalizedStringFromTable(@"Show Preferences", @"General", @"")];
 			[alert setMessageText:NSLocalizedStringFromTable(@"No output formats are selected.", @"General", @"")];
 			[alert setInformativeText:NSLocalizedStringFromTable(@"Please select one or more output formats.", @"General", @"")];
-			[alert setAlertStyle: NSWarningAlertStyle];
+			[alert setAlertStyle: NSAlertStyleWarning];
 			
 			result = [alert runModal];
 			
@@ -458,7 +458,7 @@
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"General", @"")];
 		[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"An error occurred while ripping tracks from the disc \"%@\".", @"Exceptions", @""), (nil == [self title] ? [self discID] : [self title])]];
 		[alert setInformativeText:[exception reason]];
-		[alert setAlertStyle:NSWarningAlertStyle];		
+		[alert setAlertStyle:NSAlertStyleWarning];		
 		[self displayExceptionAlert:alert];
 	}
 }
@@ -475,7 +475,7 @@
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"General", @"")];
 		[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Do you want to eject the disc \"%@\" while ripping is in progress?", @"CompactDisc", @""), (nil == [self title] ? [self discID] : [self title])]];
 		[alert setInformativeText:NSLocalizedStringFromTable(@"Your incomplete rips will be lost.", @"CompactDisc", @"")];
-		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setAlertStyle:NSAlertStyleWarning];
 		
 		if(NSAlertSecondButtonReturn == [alert runModal]) {
 			return;
@@ -529,7 +529,7 @@
 			MusicBrainzMatchSheet	*sheet		= [[MusicBrainzMatchSheet alloc] init];
 			[sheet setValue:results forKey:@"matches"];
 			[[self windowForSheet] beginSheet:[sheet sheet] completionHandler:^(NSModalResponse returnCode) {
-				if(NSOKButton == returnCode) {
+				if(NSModalResponseOK == returnCode) {
 					NSDictionary *release = [sheet selectedRelease];
 					[self updateMetadataFromMusicBrainz:release];
 					[self downloadAlbumArt:sender];
@@ -643,7 +643,7 @@
 	[panel setAllowedFileTypes:[NSImage imageFileTypes]];
 	
 	[panel beginSheetModalForWindow:[self windowForSheet] completionHandler:^(NSModalResponse result) {
-	    if(NSOKButton == result) {
+	    if(NSModalResponseOK == result) {
 			for(NSURL *url in [panel URLs]) {
 				NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
 				if(nil != image) {

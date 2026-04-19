@@ -169,7 +169,7 @@ enum {
 			[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"General", @"")];
 			[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"The file \"%@\" exists.", @"General", @""), [[NSFileManager defaultManager] displayNameAtPath:filename]]];
 			[alert setInformativeText:NSLocalizedStringFromTable(@"Do you want to replace the existing file?", @"General", @"")];
-			[alert setAlertStyle:NSInformationalAlertStyle];
+			[alert setAlertStyle:NSAlertStyleInformational];
 			
 			NSInteger			result		= [alert runModal];
 			switch(result) {
@@ -365,7 +365,7 @@ enum {
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"General", @"")];
 		[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"An error occurred while tagging the file \"%@\".", @"Exceptions", @""), [[NSFileManager defaultManager] displayNameAtPath:[self outputFilename]]]];
 		[alert setInformativeText:[exception reason]];
-		[alert setAlertStyle:NSWarningAlertStyle];		
+		[alert setAlertStyle:NSAlertStyleWarning];		
 		[alert runModal];
 	}
 	
@@ -412,7 +412,7 @@ enum {
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"General", @"")];
 		[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"An error occurred while encoding the file \"%@\".", @"Exceptions", @""), [[NSFileManager defaultManager] displayNameAtPath:[self outputFilename]]]];
 		[alert setInformativeText:[exception reason]];
-		[alert setAlertStyle:NSWarningAlertStyle];		
+		[alert setAlertStyle:NSAlertStyleWarning];		
 		[alert runModal];
 	}
 }
@@ -437,7 +437,7 @@ enum {
 	[alert addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"General", @"")];
 	[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"An error occurred while encoding the file \"%@\".", @"Exceptions", @""), [[NSFileManager defaultManager] displayNameAtPath:[self outputFilename]]]];
 	[alert setInformativeText:[[self exception] reason]];
-	[alert setAlertStyle:NSWarningAlertStyle];		
+	[alert setAlertStyle:NSAlertStyleWarning];		
 	[alert runModal];
 }
 

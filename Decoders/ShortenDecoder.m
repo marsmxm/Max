@@ -25,86 +25,101 @@
 
 - (id) initWithFilename:(NSString *)filename
 {
-	if((self = [super initWithFilename:filename])) {
-		shn_config		config;
-		int				result;
-		
-		// Setup config struct
-		config.error_output_method			= ERROR_OUTPUT_STDERR;
-		config.seek_tables_path				= NULL;
-		config.relative_seek_tables_path	= NULL;
-		config.verbose						= 0;
+    if((self = [super initWithFilename:filename])) {
+        // Shorten decoder disabled - missing shorten library
+        NSLog(@"ShortenDecoder: Shorten library not available");
+        [self release];
+        return nil;
+        /*
+        shn_config        config;
+        int                result;
+        
+        // Setup config struct
+        config.error_output_method            = ERROR_OUTPUT_STDERR;
+        config.seek_tables_path                = NULL;
+        config.relative_seek_tables_path    = NULL;
+        config.verbose                        = 0;
 #if defined(__BIG_ENDIAN__)
-		config.swap_bytes					= 1;
+        config.swap_bytes                    = 1;
 #elif defined(__LITTLE_ENDIAN__)
-		config.swap_bytes					= 0;
+        config.swap_bytes                    = 0;
 #else
 #error "Target processor byte order unknown"
 #endif
-		
-		// Setup decoder
-		_shn = shn_load((char *)[[self filename] fileSystemRepresentation], config);
-		NSAssert(NULL != _shn, @"Unable to open the input file.");
-		
-		result	= shn_init_decoder(_shn);
-		NSAssert(1 == result, @"Unable to initialize the Shorten decoder.");
-		
-		// Setup input format descriptor
-		_pcmFormat.mFormatID			= kAudioFormatLinearPCM;
-		_pcmFormat.mFormatFlags			= kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian | kAudioFormatFlagIsPacked;
-		
-		_pcmFormat.mSampleRate			= shn_get_samplerate(_shn);
-		_pcmFormat.mChannelsPerFrame	= shn_get_channels(_shn);
-		_pcmFormat.mBitsPerChannel		= shn_get_bitspersample(_shn);
-		
-		_pcmFormat.mBytesPerPacket		= (_pcmFormat.mBitsPerChannel / 8) * _pcmFormat.mChannelsPerFrame;
-		_pcmFormat.mFramesPerPacket		= 1;
-		_pcmFormat.mBytesPerFrame		= _pcmFormat.mBytesPerPacket * _pcmFormat.mFramesPerPacket;
-		
-	}
-	return self;
+        
+        // Setup decoder
+        _shn = shn_load((char *)[[self filename] fileSystemRepresentation], config);
+        NSAssert(NULL != _shn, @"Unable to open the input file.");
+        
+        result    = shn_init_decoder(_shn);
+        NSAssert(1 == result, @"Unable to initialize the Shorten decoder.");
+        
+        // Setup input format descriptor
+        _pcmFormat.mFormatID            = kAudioFormatLinearPCM;
+        _pcmFormat.mFormatFlags            = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian | kAudioFormatFlagIsPacked;
+        
+        _pcmFormat.mSampleRate            = shn_get_samplerate(_shn);
+        _pcmFormat.mChannelsPerFrame    = shn_get_channels(_shn);
+        _pcmFormat.mBitsPerChannel        = shn_get_bitspersample(_shn);
+        
+        _pcmFormat.mBytesPerPacket        = (_pcmFormat.mBitsPerChannel / 8) * _pcmFormat.mChannelsPerFrame;
+        _pcmFormat.mFramesPerPacket        = 1;
+        _pcmFormat.mBytesPerFrame        = _pcmFormat.mBytesPerPacket * _pcmFormat.mFramesPerPacket;
+        */
+    }
+    return self;
 }
 
 - (void) dealloc
 {
-	shn_cleanup_decoder(_shn);
-	shn_unload(_shn);
-	_shn = NULL;
-	
-	[super dealloc];
+    // Shorten cleanup disabled
+    /*
+    shn_cleanup_decoder(_shn);
+    shn_unload(_shn);
+    _shn = NULL;
+    */
+    
+    [super dealloc];
 }
 
-- (NSString *)		sourceFormatDescription			{ return [NSString stringWithFormat:@"%@, %u channels, %u Hz", NSLocalizedStringFromTable(@"Shorten", @"General", @""), [self pcmFormat].mChannelsPerFrame, (unsigned)[self pcmFormat].mSampleRate]; }
+- (NSString *)        sourceFormatDescription            {
+    return @"Shorten (decoder disabled)";
+    // return [NSString stringWithFormat:@"%@, %u channels, %u Hz", NSLocalizedStringFromTable(@"Shorten", @"General", @""), [self pcmFormat].mChannelsPerFrame, (unsigned)[self pcmFormat].mSampleRate];
+}
 
-- (SInt64)			totalFrames						{ return (shn_get_song_length(_shn) / 1000) * [self pcmFormat].mSampleRate; }
-- (SInt64)			seekToFrame:(SInt64)frame		{ return -1; }
+- (SInt64)            totalFrames                        { return 0; /* shn_get_song_length(_shn) / 1000) * [self pcmFormat].mSampleRate; */ }
+- (SInt64)            seekToFrame:(SInt64)frame        { return -1; }
 
 - (void) fillPCMBuffer
 {
-	CircularBuffer		*buffer				= [self pcmBuffer];
-	unsigned			spaceRequired		= 0;	
-	
-	// Determine the size needed for a read
-	spaceRequired		= (unsigned)shn_get_buffer_block_size(_shn, SHORTEN_BLOCKS);
-		
-	while([buffer freeSpaceAvailable] >= spaceRequired) {
-		int				bytesRead			= 0;
-		void			*rawBuffer			= [buffer exposeBufferForWriting];
+    // Shorten decoder disabled - no buffer filling
+    return;
+    /*
+    CircularBuffer        *buffer                = [self pcmBuffer];
+    unsigned            spaceRequired        = 0;
+    
+    // Determine the size needed for a read
+    spaceRequired        = (unsigned)shn_get_buffer_block_size(_shn, SHORTEN_BLOCKS);
+        
+    while([buffer freeSpaceAvailable] >= spaceRequired) {
+        int                bytesRead            = 0;
+        void            *rawBuffer            = [buffer exposeBufferForWriting];
 
-		bytesRead		= shn_read(_shn, rawBuffer, spaceRequired);
+        bytesRead        = shn_read(_shn, rawBuffer, spaceRequired);
 
-		// Convert host-ordered data to big-endian
+        // Convert host-ordered data to big-endian
 #if __LITTLE_ENDIAN__
-		swab(rawBuffer, rawBuffer, bytesRead);
+        swab(rawBuffer, rawBuffer, bytesRead);
 #endif
 
-		[buffer wroteBytes:bytesRead];
-		
-		// No more data
-		if(0 == bytesRead) {
-			break;
-		}
-	}
+        [buffer wroteBytes:bytesRead];
+        
+        // No more data
+        if(0 == bytesRead) {
+            break;
+        }
+    }
+    */
 }
 
 @end

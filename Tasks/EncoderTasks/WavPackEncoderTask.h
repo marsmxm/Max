@@ -20,7 +20,7 @@
 
 #import "EncoderTask.h"
 
-@interface WavPackEncoderTask : EncoderTask 
+@interface WavPackEncoderTask : EncoderTask
 {
 }
 

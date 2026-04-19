@@ -63,7 +63,7 @@ enum {
 };*/
 
 static void 
-callback(long inpos, int function, void *userdata)
+callback(long inpos, paranoia_cb_mode_t function)
 {
 //	ParanoiaRipper *ripper = (ParanoiaRipper *)userdata;
 	
@@ -92,7 +92,7 @@ callback(long inpos, int function, void *userdata)
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"General", @"")];
 		[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"An error occurred while initializing the %@ class.", @"Exceptions", @""), @"ParanoiaRipper"]];
 		[alert setInformativeText:[exception reason]];
-		[alert setAlertStyle:NSWarningAlertStyle];		
+		[alert setAlertStyle:NSAlertStyleWarning];		
 		[alert runModal];
 	}
 }
@@ -264,7 +264,7 @@ callback(long inpos, int function, void *userdata)
 	while(cursor <= lastSector) {
 		
 		// Read a chunk
-		buf = paranoia_read_limited(_paranoia, callback, self, (-1 == _maximumRetries ? 20 : _maximumRetries));
+		buf = paranoia_read_limited(_paranoia, callback, (-1 == _maximumRetries ? 20 : _maximumRetries));
 		NSAssert(NULL != buf, NSLocalizedStringFromTable(@"The skip tolerance was exceeded.", @"Exceptions", @""));
 		
 		// Put the data in an AudioBufferList

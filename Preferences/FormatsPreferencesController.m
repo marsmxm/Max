@@ -278,7 +278,9 @@
 	settingsSheet = [[[settingsSheetClass alloc] initWithSettings:settings] autorelease];
 	[settingsSheet setSearchKey:format];
 
-	[[NSApplication sharedApplication] beginSheet:[settingsSheet sheet] modalForWindow:[[PreferencesController sharedPreferences] window] modalDelegate:self didEndSelector:@selector(didEndSettingsSheet:returnCode:contextInfo:) contextInfo:settingsSheet];
+	[[[PreferencesController sharedPreferences] window] beginSheet:[settingsSheet sheet] completionHandler:^(NSModalResponse returnCode) {
+		[[settingsSheet sheet] orderOut:self];
+	}];
 }		
 
 - (NSUInteger)		countOfAvailableFormats							{ return [_availableFormats count]; }

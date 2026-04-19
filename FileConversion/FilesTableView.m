@@ -106,7 +106,7 @@
 	[panel setAllowedFileTypes:@[@"app"]];
 	
 	[panel beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse result) {
-		if(NSOKButton == result) {
+		if(NSModalResponseOK == result) {
 			NSString			*path				= [[_filesController selection] valueForKey:@"filename"];
 
 			for(NSURL *url in [panel URLs]) {

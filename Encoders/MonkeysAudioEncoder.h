@@ -24,13 +24,12 @@
 
 #import "Encoder.h"
 
-enum {
-	MAC_COMPRESSION_LEVEL_FAST			= 1,
-	MAC_COMPRESSION_LEVEL_NORMAL		= 2,
-	MAC_COMPRESSION_LEVEL_HIGH			= 3,
-	MAC_COMPRESSION_LEVEL_EXTRA_HIGH	= 4,
-	MAC_COMPRESSION_LEVEL_INSANE		= 5
-};
+// Settings values for compression level (stored in preferences as 1-5)
+#define MAX_SETTINGS_COMPRESSION_FAST          1
+#define MAX_SETTINGS_COMPRESSION_NORMAL        2
+#define MAX_SETTINGS_COMPRESSION_HIGH          3
+#define MAX_SETTINGS_COMPRESSION_EXTRA_HIGH    4
+#define MAX_SETTINGS_COMPRESSION_INSANE        5
 
 @interface MonkeysAudioEncoder : Encoder
 {
