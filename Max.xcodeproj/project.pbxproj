@@ -2250,7 +2250,7 @@
                 CODE_SIGN_STYLE = Automatic;
                 COMBINE_HIDPI_IMAGES = YES;
                 COPY_PHASE_STRIP = NO;
-                CURRENT_PROJECT_VERSION = 26;
+                CURRENT_PROJECT_VERSION = 1;
                 DEVELOPMENT_TEAM = 537CWGNZLA;
                 FRAMEWORK_SEARCH_PATHS = (
                     "$(inherited)",
@@ -2272,7 +2272,7 @@
                 INFOPLIST_FILE = Info.plist;
                 INSTALL_PATH = "$(HOME)/Applications";
                 LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-                MARKETING_VERSION = 0.9.2b2;
+                MARKETING_VERSION = 0.0.1;
                 OTHER_LDFLAGS = "-Wl,-no_warn_duplicate_libraries";
                 PRODUCT_BUNDLE_IDENTIFIER = org.sbooth.Max;
                 PRODUCT_NAME = Max;
@@ -2291,7 +2291,7 @@
                 "CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
                 CODE_SIGN_STYLE = Automatic;
                 COMBINE_HIDPI_IMAGES = YES;
-                CURRENT_PROJECT_VERSION = 26;
+                CURRENT_PROJECT_VERSION = 1;
                 DEVELOPMENT_TEAM = 537CWGNZLA;
                 GCC_PREPROCESSOR_DEFINITIONS = PLATFORM_APPLE;
                 HEADER_SEARCH_PATHS = (
@@ -2309,7 +2309,7 @@
                 INFOPLIST_FILE = Info.plist;
                 INSTALL_PATH = "$(HOME)/Applications";
                 LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-                MARKETING_VERSION = 0.9.2b2;
+                MARKETING_VERSION = 0.0.1;
                 OTHER_LDFLAGS = "-Wl,-no_warn_duplicate_libraries";
                 PRODUCT_BUNDLE_IDENTIFIER = org.sbooth.Max;
                 PRODUCT_NAME = Max;
