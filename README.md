@@ -54,14 +54,14 @@ The following issues were present in the original codebase when running on Apple
 
 ## Building
 
-```bash
+```sh
 cd Max
 xcodebuild build -scheme Max -configuration Debug
 ```
 
 Then copy and sign the result:
 
-```bash
+```sh
 DERIVED="$HOME/Library/Developer/Xcode/DerivedData/Max-*/Build/Products/Debug/Max.app"
 DEST="$(pwd)/build/Debug/Max.app"
 cp -a $DERIVED "$DEST.new" && rm -rf "$DEST" && mv "$DEST.new" "$DEST"
@@ -75,12 +75,46 @@ Requires Xcode 13 or later on an Apple Silicon Mac.
 
 A shell script is included to verify that all bundled encoding libraries are functional:
 
-```bash
+```sh
 bash smoke_test.sh
 ```
 
 This generates a synthetic WAV file and exercises ALAC, AAC, FLAC, MP3, WavPack, Ogg Vorbis, libsndfile, and the FLAC framework dylib.
 
-## Support
+## Installation
 
-Bugs in the upstream Max codebase can be reported via the [GitHub issue tracker](https://github.com/sbooth/Max/issues).
+Download the latest `Max.zip` from the [Releases](https://github.com/marsmxm/Max/releases) page, unzip, and drag `Max.app` to your `/Applications` folder.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bugs in the upstream Max codebase can be reported via the [GitHub issue tracker](https://github.com/sbooth/Max/issues).## SupportAfter a blocked launch attempt, go to **System Settings → Privacy & Security**, scroll down, and click **Open Anyway**.**Option 3 — System Settings (macOS 13+)**```xattr -dr com.apple.quarantine /Applications/Max.app```bash**Option 2 — Remove the quarantine attribute (terminal)**Right-click `Max.app` → **Open** → click **Open** in the dialog. macOS remembers the exception after the first time.**Option 1 — Right-click to open (easiest)**Because the app is not notarized, macOS will block it on first launch. You have a few options:### Gatekeeper warning
+### Gatekeeper warning
+
+Because the app is not notarized, macOS will block it on first launch. You have a few options:
+
+**Option 1 — Right-click to open (easiest)**
+Right-click `Max.app` → **Open** → click **Open** in the dialog. macOS remembers the exception after the first time.
+
+**Option 2 — Remove the quarantine attribute (terminal)**
+```bash
+xattr -dr com.apple.quarantine /Applications/Max.app
+```
+
+**Option 3 — System Settings (macOS 13+)**
+After a blocked launch attempt, go to **System Settings → Privacy & Security**, scroll down, and click **Open Anyway**.
