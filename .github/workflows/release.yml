@@ -47,12 +47,15 @@ jobs:
             DEVELOPMENT_TEAM="" \
             archive
 
-      - name: Extract and sign app
+      - name: Extract and package app
         run: |
-          cp -r "$RUNNER_TEMP/Max.xcarchive/Products/Applications/Max.app" "$RUNNER_TEMP/Max.app"
-          # Sign all frameworks and dylibs first, then the app bundle
-          find "$RUNNER_TEMP/Max.app/Contents/Frameworks" -name "*.framework" -o -name "*.dylib" 2>/dev/null | \
-            xargs -I{} codesign --force --sign - {}
+          # Find Max.app wherever xcodebuild placed it in the xcarchive
+          APP_PATH=$(find "$RUNNER_TEMP/Max.xcarchive/Products" -name "Max.app" -maxdepth 6 | head -1)
+          echo "Found app at: $APP_PATH"
+          cp -r "$APP_PATH" "$RUNNER_TEMP/Max.app"
+          # Re-sign with ad-hoc identity to ensure all pages are signed
+          find "$RUNNER_TEMP/Max.app/Contents/Frameworks" -name "*.framework" 2>/dev/null | \
+            while IFS= read -r fw; do codesign --force --sign - "$fw"; done
           codesign --deep --force --sign - "$RUNNER_TEMP/Max.app"
 
       - name: Package zip
