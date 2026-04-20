@@ -36,7 +36,7 @@
 #define keyASSubroutineName 'snam'
 #endif
 
-#include <sndfile.h>
+#include <sndfile/sndfile.h>
 #include <ogg/ogg.h>
 
 #include <FLAC/metadata.h>

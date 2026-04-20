@@ -9,3 +9,5 @@ build/
 
 ## Workspace files
 *.xcworkspace/xcuserdata/
+
+.playwright-mcp/
