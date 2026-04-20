@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install dependencies
-        run: brew install libsndfile
+        run: brew install libsndfile libcdio-paranoia musepack wavpack libcue
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
