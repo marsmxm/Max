@@ -1,1 +1,0 @@
-../Cellar/libpng/1.6.57/include/pnglibconf.h

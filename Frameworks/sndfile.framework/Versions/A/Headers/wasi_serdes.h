@@ -1,1 +1,0 @@
-../Cellar/uvwasi/0.0.23/include/wasi_serdes.h
