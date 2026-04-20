@@ -15,6 +15,23 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install dependencies
+        run: brew install libsndfile libcdio-paranoia musepack wavpack libcue mad flac libogg speex libvorbis lame taglib
+
+      - name: Fix framework header symlinks
+        run: |
+          BREW_INC="$(brew --prefix)/include"
+          find Frameworks -type l | while IFS= read -r lnk; do
+            if [ ! -e "$lnk" ]; then
+              target="$(readlink "$lnk")"
+              if echo "$target" | grep -qE '^\.\./Cellar/'; then
+                header="$(echo "$target" | sed -E 's|^\.\./Cellar/[^/]+/[^/]+/include/||')"
+                new_target="$BREW_INC/$header"
+                ln -sf "$new_target" "$lnk"
+              fi
+            fi
+          done
+
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
