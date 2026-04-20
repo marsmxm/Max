@@ -42,25 +42,23 @@ jobs:
             -configuration Release \
             -archivePath "$RUNNER_TEMP/Max.xcarchive" \
             CODE_SIGN_IDENTITY="-" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=YES \
+            CODE_SIGNING_ALLOWED=YES \
+            DEVELOPMENT_TEAM="" \
             archive
 
-      - name: Export app
+      - name: Extract and sign app
         run: |
-          xcodebuild \
-            -exportArchive \
-            -archivePath "$RUNNER_TEMP/Max.xcarchive" \
-            -exportOptionsPlist ExportOptions.plist \
-            -exportPath "$RUNNER_TEMP/release" \
-            CODE_SIGN_IDENTITY="-" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+          cp -r "$RUNNER_TEMP/Max.xcarchive/Products/Applications/Max.app" "$RUNNER_TEMP/Max.app"
+          # Sign all frameworks and dylibs first, then the app bundle
+          find "$RUNNER_TEMP/Max.app/Contents/Frameworks" -name "*.framework" -o -name "*.dylib" 2>/dev/null | \
+            xargs -I{} codesign --force --sign - {}
+          codesign --deep --force --sign - "$RUNNER_TEMP/Max.app"
 
       - name: Package zip
         run: |
-          cd "$RUNNER_TEMP/release"
-          zip -r "$RUNNER_TEMP/Max-${{ github.ref_name }}.zip" Max.app
+          cd "$RUNNER_TEMP"
+          zip -r "Max-${{ github.ref_name }}.zip" Max.app
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
