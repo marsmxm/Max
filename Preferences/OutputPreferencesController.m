@@ -106,8 +106,6 @@ enum {
 			[panel setCanChooseFiles:NO];
 
 			[panel beginSheetModalForWindow:[[PreferencesController sharedPreferences] window] completionHandler:^(NSModalResponse result) {
-				[panel orderOut:self];
-
 				switch(result) {
 
 					case NSModalResponseOK:
@@ -222,8 +220,6 @@ enum {
 			[panel setCanChooseFiles:NO];
 
 			[panel beginSheetModalForWindow:[[PreferencesController sharedPreferences] window] completionHandler:^(NSModalResponse result) {
-				[panel orderOut:self];
-
 				switch(result) {
 
 					case NSModalResponseOK:

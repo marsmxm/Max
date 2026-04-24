@@ -71,6 +71,6 @@ jobs:
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          name: Max-Reborn ${{ github.ref_name }}
-          files: ${{ runner.temp }}/Max-${{ github.ref_name }}.zip
-          generate_release_notes: true
+            name: "MaxARM ${{ github.ref_name }}"
+            files: "${{ runner.temp }}/Max-${{ github.ref_name }}.zip"
+            generate_release_notes: true

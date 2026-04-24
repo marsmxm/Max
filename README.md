@@ -1,8 +1,8 @@
-# Max-Reborn
+# MaxARM
 
 **Upstream project:** [https://sbooth.org/Max/](https://sbooth.org/Max/) · [GitHub](https://github.com/sbooth/Max)
 
-Max-Reborn is a revival of Max, the open-source macOS application for ripping CDs and converting audio between formats. All bundled third-party frameworks have been recompiled as native ARM64 binaries, several ARM64-specific runtime crashes have been fixed, and the project has been updated to build and run on modern macOS.
+MaxARM is a revival of Max, the open-source macOS application for ripping CDs and converting audio between formats. All bundled third-party frameworks have been recompiled as native ARM64 binaries, several ARM64-specific runtime crashes have been fixed, and the project has been updated to build and run on modern macOS.
 
 ## What is Max?
 
@@ -85,25 +85,7 @@ This generates a synthetic WAV file and exercises ALAC, AAC, FLAC, MP3, WavPack,
 
 Download the latest `Max.zip` from the [Releases](https://github.com/marsmxm/Max/releases) page, unzip, and drag `Max.app` to your `/Applications` folder.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Bugs in the upstream Max codebase can be reported via the [GitHub issue tracker](https://github.com/sbooth/Max/issues).## SupportAfter a blocked launch attempt, go to **System Settings → Privacy & Security**, scroll down, and click **Open Anyway**.**Option 3 — System Settings (macOS 13+)**```xattr -dr com.apple.quarantine /Applications/Max.app```bash**Option 2 — Remove the quarantine attribute (terminal)**Right-click `Max.app` → **Open** → click **Open** in the dialog. macOS remembers the exception after the first time.**Option 1 — Right-click to open (easiest)**Because the app is not notarized, macOS will block it on first launch. You have a few options:### Gatekeeper warning
+```xattr -dr com.apple.quarantine /Applications/Max.app```bash**Option 2 — Remove the quarantine attribute (terminal)**Right-click `Max.app` → **Open** → click **Open** in the dialog. macOS remembers the exception after the first time.**Option 1 — Right-click to open (easiest)**Because the app is not notarized, macOS will block it on first launch. You have a few options :### Gatekeeper warning
 ### Gatekeeper warning
 
 Because the app is not notarized, macOS will block it on first launch. You have a few options:
@@ -112,7 +94,8 @@ Because the app is not notarized, macOS will block it on first launch. You have 
 Right-click `Max.app` → **Open** → click **Open** in the dialog. macOS remembers the exception after the first time.
 
 **Option 2 — Remove the quarantine attribute (terminal)**
-```bash
+```
+
 xattr -dr com.apple.quarantine /Applications/Max.app
 ```
 

@@ -304,6 +304,7 @@ static FileConversionController		*sharedController						= nil;
 	NSOpenPanel		*panel		= [NSOpenPanel openPanel];
 	
 	[panel setAllowsMultipleSelection:YES];
+	[panel setCanChooseFiles:YES];
 	[panel setCanChooseDirectories:YES];
 	[panel setAllowedFileTypes:GetAudioExtensions()];
 
@@ -355,23 +356,18 @@ static FileConversionController		*sharedController						= nil;
 			composedPath	= [NSString stringWithFormat:@"%@/%@", filename, subpath];
 			
 			// Ignore dotfiles
-			if([[subpath lastPathComponent] hasPrefix:@"."]) {
-				continue;
-			}
-			// Ignore files that don't have our extensions
-			else if(NO == [allowedTypes containsObject:[[subpath pathExtension] lowercaseString]]) {
-				continue;
-			}
-			
-			// Ignore directories
-			if([manager fileExistsAtPath:composedPath isDirectory:&isDir] && NO == isDir) {
-				success &= [self addOneFile:composedPath atIndex:index];
-			}
-			
-			if(success) {
-				file = [_filesController findFile:composedPath];
-				if(nil != file) {
-					[newFiles addObject:file];
+			if(NO == [[subpath lastPathComponent] hasPrefix:@"."]
+			   && [allowedTypes containsObject:[[subpath pathExtension] lowercaseString]]) {
+				// Ignore directories
+				if([manager fileExistsAtPath:composedPath isDirectory:&isDir] && NO == isDir) {
+					success &= [self addOneFile:composedPath atIndex:index];
+				}
+				
+				if(success) {
+					file = [_filesController findFile:composedPath];
+					if(nil != file) {
+						[newFiles addObject:file];
+					}
 				}
 			}
 			
