@@ -23,13 +23,15 @@
 - (void)			moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(NSUInteger)insertIndex;
 - (NSIndexSet *)	indexSetForRows:(NSArray *)rows;
 - (NSInteger)		rowsAboveRow:(NSInteger)row inIndexSet:(NSIndexSet *)indexSet;
+- (BOOL)			pasteboardContainsFilenames:(NSPasteboard *)pboard;
+- (NSArray *)		filenamesFromPasteboard:(NSPasteboard *)pboard;
 @end
 
 @implementation FileArrayController
 
 - (void) awakeFromNib
 {
-	[_tableView registerForDraggedTypes:[NSArray arrayWithObject:NSPasteboardTypeFileURL]];
+	[_tableView registerForDraggedTypes:[NSArray arrayWithObjects:NSPasteboardTypeFileURL, NSFilenamesPboardType, nil]];
 }
 
 #pragma mark Data Source Overrides
@@ -88,8 +90,9 @@
 		index = [rowIndexes indexGreaterThanIndex:index];
 	}
 	
-	[pboard declareTypes:[NSArray arrayWithObject:NSPasteboardTypeFileURL] owner:nil];
+	[pboard declareTypes:[NSArray arrayWithObjects:NSPasteboardTypeFileURL, NSFilenamesPboardType, nil] owner:nil];
 	[pboard setPropertyList:filenames forType:NSPasteboardTypeFileURL];
+	[pboard setPropertyList:filenames forType:NSFilenamesPboardType];
 
 	return YES;
 }
@@ -103,7 +106,7 @@
 		[tv setDropRow:row dropOperation:NSTableViewDropAbove];
 		dragOperation = NSDragOperationMove;
 	}	
-	else if([[[info draggingPasteboard] types] containsObject:NSPasteboardTypeFileURL]) {
+	else if([self pasteboardContainsFilenames:[info draggingPasteboard]]) {
 		[tv setDropRow:row dropOperation:NSTableViewDropAbove];
 		dragOperation = NSDragOperationCopy;
 	}
@@ -120,7 +123,7 @@
 	}
 	
     if(_tableView == [info draggingSource]) {
-		NSArray			*filenames		= [[info draggingPasteboard] propertyListForType:NSPasteboardTypeFileURL];
+		NSArray			*filenames		= [self filenamesFromPasteboard:[info draggingPasteboard]];
 		NSIndexSet		*indexSet		= [self indexSetForRows:filenames];
 		NSInteger		rowsAbove;
 		NSRange			range;
@@ -133,13 +136,19 @@
 		
 		[self setSelectionIndexes:indexSet];
 	}
-	else if([[[info draggingPasteboard] types] containsObject:NSPasteboardTypeFileURL]) {
+	else if([self pasteboardContainsFilenames:[info draggingPasteboard]]) {
 		NSEnumerator		*enumerator;
 		NSString			*current;
 		NSMutableArray		*newFiles	= [NSMutableArray array];
 		NSDictionary		*file;
+		NSArray			*filenames;
 		
-		enumerator = [[[info draggingPasteboard] propertyListForType:NSPasteboardTypeFileURL] objectEnumerator];
+		filenames = [self filenamesFromPasteboard:[info draggingPasteboard]];
+		if(nil == filenames) {
+			return NO;
+		}
+
+		enumerator = [filenames objectEnumerator];
 		while((current = [enumerator nextObject])) {
 			
 			success &= [[FileConversionController sharedController] addFile:current atIndex:row++];
@@ -163,6 +172,47 @@
 @end
 
 @implementation FileArrayController (Private)
+
+- (BOOL) pasteboardContainsFilenames:(NSPasteboard *)pboard
+{
+	return (nil != [self filenamesFromPasteboard:pboard]);
+}
+
+- (NSArray *) filenamesFromPasteboard:(NSPasteboard *)pboard
+{
+	NSArray				*filenames;
+	NSArray				*urls;
+	NSMutableArray		*paths;
+	NSURL				*url;
+	NSDictionary		*options;
+
+	options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:NSPasteboardURLReadingFileURLsOnlyKey];
+	urls = [pboard readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]] options:options];
+	if(0 != [urls count]) {
+		paths = [NSMutableArray arrayWithCapacity:[urls count]];
+		for(url in urls) {
+			if([url isFileURL]) {
+				[paths addObject:[url path]];
+			}
+		}
+
+		if(0 != [paths count]) {
+			return paths;
+		}
+	}
+
+	filenames = [pboard propertyListForType:NSFilenamesPboardType];
+	if(0 != [filenames count]) {
+		return filenames;
+	}
+
+	filenames = [pboard propertyListForType:NSPasteboardTypeFileURL];
+	if(0 != [filenames count]) {
+		return filenames;
+	}
+
+	return nil;
+}
 
 - (void) moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(NSUInteger)insertIndex
 {

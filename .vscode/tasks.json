@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Max Debug",
+			"type": "shell",
+			"command": "rm -rf '${workspaceFolder}/build/Debug/Max.app' && xcodebuild -project Max.xcodeproj -scheme Max -configuration Debug build CONFIGURATION_BUILD_DIR='${workspaceFolder}/build/Debug' CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO DEVELOPMENT_TEAM= && find '${workspaceFolder}/build/Debug/Max.app/Contents/Frameworks' -path '*/Headers' -type d -exec rm -rf {} + && find '${workspaceFolder}/build/Debug/Max.app/Contents/Frameworks' -name 'Headers' -type l -delete && codesign --force --deep --sign - '${workspaceFolder}/build/Debug/Max.app' && codesign --verify --deep --strict --verbose=2 '${workspaceFolder}/build/Debug/Max.app'",
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}
