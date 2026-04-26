@@ -2272,7 +2272,7 @@
                 INFOPLIST_FILE = Info.plist;
                 INSTALL_PATH = "$(HOME)/Applications";
                 LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-                MARKETING_VERSION = 0.0.1;
+                MARKETING_VERSION = 0.0.2;
                 OTHER_LDFLAGS = "-Wl,-no_warn_duplicate_libraries";
                 PRODUCT_BUNDLE_IDENTIFIER = org.sbooth.Max;
                 PRODUCT_NAME = Max;
@@ -2309,7 +2309,7 @@
                 INFOPLIST_FILE = Info.plist;
                 INSTALL_PATH = "$(HOME)/Applications";
                 LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-                MARKETING_VERSION = 0.0.1;
+                MARKETING_VERSION = 0.0.2;
                 OTHER_LDFLAGS = "-Wl,-no_warn_duplicate_libraries";
                 PRODUCT_BUNDLE_IDENTIFIER = org.sbooth.Max;
                 PRODUCT_NAME = Max;
